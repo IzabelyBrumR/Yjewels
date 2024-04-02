@@ -47,6 +47,8 @@
     <body>
         <?php
         require_once './shared/header.php';
+        
+
         ?>
         <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-indicators">

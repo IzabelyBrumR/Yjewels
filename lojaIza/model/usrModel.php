@@ -6,8 +6,9 @@ class usrModel {
     
     public  $id;
     public  $nome;
-    public $email;
+    public  $email;
     public  $senha;
+    public  $tipo_usuario;
 
     public function __construct() {
         //vazio
@@ -29,6 +30,10 @@ class usrModel {
    public function getSenha() {
        return $this->senha;
    }
+
+   public function getTipo_usuario() {
+    return $this->tipo_usuario;
+}
    public function setId($id): void {
        $this->id = $id;
    }
@@ -44,6 +49,9 @@ class usrModel {
    public function setSenha($senha): void {
        $this->senha = $senha;
    }
+   public function setTipo_usuario($tipo_usuario): void {
+        $this->tipo_usuario = $tipo_usuario;
+}
 
     //Métodos especialistas
     public function loadAll() {
@@ -71,6 +79,7 @@ class usrModel {
                 $this->nome = $value['nome'];
                 $this->email = $value['email'];
                 $this->senha = $value['senha'];
+                $this->tipo_usuario = $value['tipo_usuario'];
             }
         }
         $db->Desconectar();
@@ -81,7 +90,7 @@ class usrModel {
 
         $db = new ConexaoMysql();
         $db->Conectar();
-        $sql = 'INSERT INTO usuario (nome,email,senha) values ("'.$this->nome.'","'.$this->email.'","'.$this->senha.'")';
+        $sql = 'INSERT INTO usuario (nome,email,senha,tipo_usuario) values ("'.$this->nome.'","'.$this->email.'","'.$this->senha.'","'.$this->tipo_usuario.'")';
          $db->Executar($sql);
         
        
@@ -97,31 +106,15 @@ class usrModel {
 
         $db->Consultar($sql);
         $result = $db->total;
-
-        if($result == 1 ){
-            @session_start();
-            $_SESSION['login'] = $email;
-
-            if(isset($lembrar)){
-                if($lembrar == 1){
-                    setcookie('email', $email, time() + (86400 * 30), "/"); 
-                }
-            }else{
-                if (isset($_COOKIE['email'])) {
-                    //destruir o cookie
-                    setcookie("email", "", time()  - (172800 * 30), "/");
-                }
-            }
-
-            header('location:../index.php');
-
-        } else {
-        
-            header('location: ../loginPage.php?cod=171');
+        $user = new usrModel();
+        if($result>0){
+        foreach($result as $key => $value){
+            $this->id = $value['id'];
+            $this->nome = $value['nome'];
+            $this->tipo_usuario = $value['tipo_usuario_id'];
+            $this->email = $value['email'];
         }
-
-     
-
+    }
     }
 
     public function loadIdUser(){

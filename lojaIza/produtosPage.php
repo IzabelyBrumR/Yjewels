@@ -54,62 +54,32 @@
             </style> 
         </head>
         <body>
-            <?php
-            require_once './shared/header.php';
-            ?>
+        <?php
+                require_once './shared/header.php';
+        ?>
             <br>
-
             <div id="aneis" class="container-fluid">
                 <h1>Anéis</h1>
             </div>
             <div class="row">
-                <div class="col-sm-4">
-                    <div class="gallery">
-                        <img src="img/aneis/anel1.png"  width="600" height="400">
-                        <div class="desc"><h4>R$4900,00</h4>
-                            <button class="btn"style="background-color: #3596ea;">Adicionar ao Carrinho</button></div>
-                    </div>
-                </div>
-
-                <div class="col-sm-4">
-                    <div class="gallery">
-                        <img src="img/aneis/anel2.png"  width="600" height="400">
-                        <div class="desc"><h4>R$1249,00</h4>
-                            <button class="btn" style="background-color: #3596ea;">Adicionar ao Carrinho</button></div>
-                    </div>
-                </div>
-
-                <div class="col-sm-4">
-                    <div class="gallery">
-                        <img src="img/aneis/anel3.png"  width="600" height="400">
-                        <div class="desc"><h4>R$1519,00</h4>
-                            <button class="btn" style="background-color: #3596ea;">Adicionar ao Carrinho</button></div>
-                    </div>
-                </div>
-
-                <div class="col-sm-4">
-                    <div class="gallery">
-                        <img src="img/aneis/anel4.png"  width="600" height="400">
-                        <div class="desc"><h4>R$1639,00</h4>
-                            <button class="btn" style="background-color: #3596ea;">Adicionar ao Carrinho</button></div>
-                    </div>
-                </div>
-
-                <div class="col-sm-4">
-                    <div class="gallery">
-                        <img src="img/aneis/anel5.png"  width="600" height="400">
-                        <div class="desc"><h4>R$2419,00</h4>
-                            <button class="btn" style="background-color: #3596ea;">Adicionar ao Carrinho</button></div>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="gallery">
-                        <img src="img/aneis/anel6.png"  width="600" height="400">
-                        <div class="desc"><h4>R$4875,00</h4>
-                            <button class="btn" style="background-color: #3596ea;">Adicionar ao Carrinho</button></div>
-                    </div>
-                </div>
+                <?php
+                require_once 'controller/produtosController.php';
+                $listarProdutos = loadAll();
+                foreach ($listarProdutos as $produto){
+                    if($produto['nome'] === 'anel'){
+                        echo '<div class="col-sm-4">';
+                            echo '<div class="gallery">';
+                                echo '<img src="'.$produto['caminho'].'"  width="600" height="400">';
+                                echo '<div class="desc"><h4>'.$produto['preco_venda'].'</h4>';
+                                    echo '<button class="btn"style="background-color: #3596ea;">Adicionar ao Carrinho</button></div>';
+                            echo '</div>';
+                        echo '</div>';
+                    }
+                }
+                ?>
             </div>
+
+
             <div id="brincos" class="container-fluid">
                 <br>
                 <h1>Brincos</h1>
