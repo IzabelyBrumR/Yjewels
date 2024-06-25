@@ -1,7 +1,5 @@
 <?php
-
 require_once 'ConexaoMysql.php';
-
 class usrModel {
     
     public  $id;
@@ -13,35 +11,27 @@ class usrModel {
     public function __construct() {
         //vazio
     }
-
-   //getters e setters
    public function getId() {
        return $this->id;
    }
-
    public function getNome() {
        return $this->nome;
    }
-
    public function getEmail() {
        return $this->email;
    }
-
    public function getSenha() {
        return $this->senha;
    }
-
    public function getTipo_usuario() {
     return $this->tipo_usuario;
 }
    public function setId($id): void {
        $this->id = $id;
    }
-
    public function setNome($nome): void {
        $this->nome = $nome;
    }
-
    public function setEmail($email): void {
        $this->email = $email;
    }
@@ -55,79 +45,59 @@ class usrModel {
 
     //Métodos especialistas
     public function loadAll() {
+        //Criar um objeto de conexão
         $db = new ConexaoMysql();
+        //Abrir conexão com banco de dados
         $db->Conectar();
-
+        //Criar consulta
         $sql = 'SELECT * FROM usuario';
+        //Executar método de consulta
         $resultList = $db->Consultar($sql);
-
+        //Desconectar do banco
         $db->Desconectar();
         return $resultList;
-    }
-
-    public function loadById($id) {
+    }  
+    function cadastro($nome,$email,$senha,$tipo_usuario) {
         $db = new ConexaoMysql();
-        $db->Conectar();
+        $db->Conectar(); 
+        $sql = 'INSERT INTO usuario (nome,email,senha,tipo_usuario) values ("'.$nome.'","'.$email.'","'.$senha.'","'.$tipo_usuario.'")';
+        $db->Executar($sql);    
+        $db->Desconectar();
+        return $db->total;
+     }
+     
+    public function isAdmin($email){
+        $db = new ConexaoMysql();
+        $db->Conectar(); 
+        $sql = 'SELECT * from usuario where email = "'.$email.'";';
+        $consulta = $db->Consultar($sql);    
+        $db->Desconectar();
 
-        $sql = 'SELECT * FROM usuario where id =' . $id;
-        $resultList = $db->Consultar($sql);
-
-        //verifica se retornou um registro do database
-        if ($db->total == 1) {
-            foreach ($resultList as $value) {
-                $this->id = $value['id'];
-                $this->nome = $value['nome'];
-                $this->email = $value['email'];
-                $this->senha = $value['senha'];
-                $this->tipo_usuario = $value['tipo_usuario'];
+        foreach($consulta as $usr){
+            if($usr['tipo_usuario'] == 1){
+                return 1;
+            }else{
+                return 0;
             }
         }
-        $db->Desconectar();
-        return $resultList;
-    }
-    
-    public function cadastro(){
-
-        $db = new ConexaoMysql();
-        $db->Conectar();
-        $sql = 'INSERT INTO usuario (nome,email,senha,tipo_usuario) values ("'.$this->nome.'","'.$this->email.'","'.$this->senha.'","'.$this->tipo_usuario.'")';
-         $db->Executar($sql);
-        
-       
-       header('location:../index.php?sucess');
-        
     }
 
     public function login($email,$senha){
         $db = new ConexaoMysql();
         $db->Conectar();
-
-        $sql = "SELECT * FROM usuario where email = '$email' and senha = '$senha' ";
-
-        $db->Consultar($sql);
-        $result = $db->total;
-        $user = new usrModel();
-        if($result>0){
-        foreach($result as $key => $value){
-            $this->id = $value['id'];
-            $this->nome = $value['nome'];
-            $this->tipo_usuario = $value['tipo_usuario_id'];
-            $this->email = $value['email'];
-        }
-    }
+        $db->Consultar('SELECT * from usuario where email = "'.$email.'" AND senha = "'.$senha.'"');
+        $db->Desconectar();
+        return $db->total;
     }
 
-    public function loadIdUser(){
+    public function idByEmail($email){
         $db = new ConexaoMysql();
         $db->Conectar();
-
-        $sql =  'SELECT id FROM usuario';
-
-        $result=$db->Consultar($sql);
-
-        return $result;
+        $consulta = $db->Consultar('SELECT * from usuario where email = "'.$email.'"');
+        $db->Desconectar();
+        foreach($consulta as $usr){
+            return $usr['id'];
+        }
     }
-
 }
-
 ?>

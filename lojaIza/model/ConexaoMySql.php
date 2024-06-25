@@ -2,17 +2,13 @@
 class ConexaoMysql {
 
     protected $mysqli;
-    protected $server = '127.0.0.1'; //Endereço do servidor
+    protected $server = 'localhost'; //Endereço do servidor
     protected $user = 'root'; //Usuario que acessa o banco
-    protected $pass = '12345'; //Senha do usuário
-    protected $dataBase = 'loja'; //Nome da base de dados
+    protected $pass = '1234abcd@'; //Senha do usuário
+    protected $dataBase = 'lojaIza'; //Nome da base de dados
 
-    /** Informa o TOTAL de qualquer registro afetado
-      (SELECT, INSERT, UPDATE, DELETE) na base. */
+
     public $total = 0;
-
-    /** Informa o ultimo id do registro inserido
-      na base de dados */
     public $lastInsertId = 0; //Retorna a chave primária do registro
 
     public function getConnection(){
@@ -32,8 +28,7 @@ class ConexaoMysql {
         if ($this->mysqli->errno) {
            echo("Problema na conexao com banco de dados. Erro:" . $this->mysqli->connect_errno);
            exit();
-        }
-        
+        }    
         $this->mysqli->set_charset('utf8');
     }
 

@@ -112,5 +112,6 @@
                     <a href="produtosPage.php#pulseiras" style="text-decoration:none"><img  src="img/pulseira/capaPulseira.png" width="100%" alt=""/><h2>Pulseiras</h2></a>
                 </div>
             </div>
+            
     </body>
 </html>

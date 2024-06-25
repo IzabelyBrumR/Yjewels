@@ -77,25 +77,51 @@
         </style>
     </head>
     <body>
+        <?php
+            require_once './shared/header.php';
+        ?>
         <br>
         <div class="row">
+        <a href="adminPage.php">Voltar</a>
             <div class="col-md-4"></div>
-            <div class="col-md-4">
+            <div class="col-md-4"> 
                 <div class="blocoLogin">
-                    <form method="post" class="formLogin" action="./controller/cadastroController.php">
-                        <h2 style="color:black">Cadastro</h2>
-                        <p>Preencha os campos abaixo com seus dados.</p>
-                        <input type="hidden" name="id" value="<?php echo @(isset($usrObject) ? $usrObject->getId() : '') ?>">
-
-                        <label for="nome">Nome:</label>
-                        <input type="text" id="nome"  name="nome" required="" placeholder="Insira seu nome" required=""><!-- comment -->
-                        
-                        <label for="email">Email:</label>
-                        <input type="email" placeholder="Insira seu email" required="" name="email">
-
-                        <label for="password">Senha:</label>
-                        <input type="password" placeholder="Insira sua senha" required="" name="senha">
-
+                    <?php
+                        $id = $_REQUEST['id'];
+                        require_once'controller/itensController.php';
+                        $produto = loadById($id);
+                    ?>
+                    <form method="post" class="formLogin" action="./controller/editarProdutoController.php">
+                        <?php
+                        foreach($produto as $p){
+                            echo'
+                            <h2 style="color:black">Editar Produto</h2>
+                            <p>ALtere os campos abaixo com os dados do produto.</p>
+                            <input type="hidden" name="id" value="'.$p['id'].'">
+    
+                            <label for="nome">Nome:</label>
+                            <input type="text" id="nome"  name="nome" value="'.$p['nome'].'"required="" placeholder="Insira seu nome" required="">
+                            
+                            <label for="descricao">Descrição:</label>
+                            <input type="descricao" value="'.$p['descricao'].'"placeholder="Insira a descrição do produto" required="" name="descricao">
+    
+                            <label for="quantidade">Quantidade:</label>
+                            <input type="quantidade" value="'.$p['quantidade'].'"placeholder="Insira a quantidade" required="" name="quantidade">
+    
+                            <label for="caminho">Caminho:</label>
+                            <input type="caminho" value="'.$p['caminho'].'"placeholder="Insira o caminho" required="" name="caminho">
+    
+                            <label for="preco_custo">Preço de custo:</label>
+                            <input type="preco_custo" value="'.$p['preco_custo'].'"placeholder="Insira o preço de custo" required="" name="preco_custo">
+    
+                            <label for="preco_venda">Preço de venda:</label>
+                            <input type="preco_venda" value="'.$p['preco_venda'].'"placeholder="Insira o preço de venda" required="" name="preco_venda">
+    
+                            <label for="data_cadastro">Data do cadastro:</label>
+                            <input type="text" value="'.$p['data_cadastro'].'"placeholder="Insira a data do cadastro" required="" name="data_cadastro">
+                            ';
+                        }
+                        ?>
                         <input type="submit" value="Salvar informações" class="btn btn" name="Cadastrar" style="background-color: #fff">
                     </form>
                 </div>

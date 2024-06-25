@@ -17,7 +17,7 @@
                 a{
                     color: #bdf0e979;
                 }
-                h1{
+                h1, h2{
                     text-align: center;
                 }
                 .container-fluid{
@@ -28,7 +28,7 @@
                     margin: 2%;
                     border: 2px solid #ccc;
                     float: left;
-                    width: 80%;
+                    width: 100%;
                     padding: 2%;
                     align-items: center;
                     background-color: #bdf0e979;
@@ -54,24 +54,47 @@
             </style> 
         </head>
         <body>
-        <?php
-                require_once './shared/header.php';
-        ?>
+            <?php
+                    require_once './shared/header.php';
+            ?>
             <br>
+            <div class="container">
+            <?php if(isset($_REQUEST['search'])): ?>
+            <br>
+            <h2>Resultado da sua pesquisa:</h2>
+            <br>
+            <div class="row">
+                <?php
+                require_once 'controller/itensController.php';
+                $pesquisas = searchItens($_REQUEST['search']);
+                foreach ($pesquisas as $produto){
+                    echo '<div class="col-sm-4">';
+                        echo '<div class="gallery">';
+                            echo '<img src="'.$produto['caminho'].'"  width="600" height="400">';
+                            echo '<div class="desc"><h4>R$'.$produto['preco_venda'].'</h4>';
+                                echo '<a href="./controller/carrinhoController.php?itensId='.$produto['id'].'"><button class="btn"style="background-color: #3596ea;">Adicionar ao Carrinho</button></a></div>';
+                        echo '</div>';
+                    echo '</div>';
+                }
+                ?>
+            </div>
+            <?php else: ?>
+
+            
             <div id="aneis" class="container-fluid">
                 <h1>Anéis</h1>
             </div>
             <div class="row">
                 <?php
-                require_once 'controller/produtosController.php';
+                require_once 'controller/itensController.php';
                 $listarProdutos = loadAll();
                 foreach ($listarProdutos as $produto){
                     if($produto['nome'] === 'anel'){
                         echo '<div class="col-sm-4">';
                             echo '<div class="gallery">';
                                 echo '<img src="'.$produto['caminho'].'"  width="600" height="400">';
-                                echo '<div class="desc"><h4>'.$produto['preco_venda'].'</h4>';
-                                    echo '<button class="btn"style="background-color: #3596ea;">Adicionar ao Carrinho</button></div>';
+                                echo '<div class="desc"><h4>R$'.$produto['preco_venda'].'</h4>';
+                                echo '<a href="./controller/carrinhoController.php?itensId='.$produto['id'].'"><button class="btn"style="background-color: #3596ea;">Adicionar ao Carrinho</button></a></div>';
                             echo '</div>';
                         echo '</div>';
                     }
@@ -86,52 +109,19 @@
                 <br>
             </div>
             <div class="row">
-                <div class="col-sm-4">
-                    <div class="gallery">
-                        <img src="img/brincos/brinco1.png"  width="600" height="400">
-                        <div class="desc"><h4>R$3800,00</h4>
-                            <button class="btn"style="background-color: #3596ea;">Adicionar ao Carrinho</button></div>
-                    </div>
-                </div>
-
-                <div class="col-sm-4">
-                    <div class="gallery">
-                        <img src="img/brincos/brinco2.png"  width="600" height="400">
-                        <div class="desc"><h4>R$2500,00</h4>
-                            <button class="btn"style="background-color: #3596ea;">Adicionar ao Carrinho</button></div>
-                    </div>
-                </div>
-
-                <div class="col-sm-4">
-                    <div class="gallery">
-                        <img src="img/brincos/brinco3.png"  width="600" height="400">
-                        <div class="desc"><h4>R$7800,00</h4>
-                            <button class="btn"style="background-color: #3596ea;">Adicionar ao Carrinho</button></div>
-                    </div>
-                </div>
-
-                <div class="col-sm-4">
-                    <div class="gallery">
-                        <img src="img/brincos/brinco4.png"  width="600" height="400">
-                        <div class="desc"><h4>R$1549,00</h4>
-                            <button class="btn"style="background-color: #3596ea;">Adicionar ao Carrinho</button></div>
-                    </div>
-                </div>
-
-                <div class="col-sm-4">
-                    <div class="gallery">
-                        <img src="img/brincos/brinco5.png"  width="600" height="400">
-                        <div class="desc"><h4>R$11650,00</h4>
-                            <button class="btn"style="background-color: #3596ea;">Adicionar ao Carrinho</button></div>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="gallery">
-                        <img src="img/brincos/brinco6.png"  width="600" height="400">
-                        <div class="desc"><h4>R$4569,00</h4>
-                            <button class="btn"style="background-color: #3596ea;">Adicionar ao Carrinho</button></div>
-                    </div>
-                </div>
+                <?php
+                foreach ($listarProdutos as $produto){
+                    if($produto['nome'] === 'brinco'){
+                        echo '<div class="col-sm-4">';
+                            echo '<div class="gallery">';
+                                echo '<img src="'.$produto['caminho'].'"  width="600" height="400">';
+                                echo '<div class="desc"><h4>R$'.$produto['preco_venda'].'</h4>';
+                                    echo '<a href="./controller/carrinhoController.php?itensId='.$produto['id'].'"><button class="btn"style="background-color: #3596ea;">Adicionar ao Carrinho</button></a></div>';
+                            echo '</div>';
+                        echo '</div>';
+                    }
+                }
+                ?>
             </div>
             
             <div id="colares" class="container-fluid">
@@ -140,49 +130,19 @@
                 <br>
             </div>
             <div class="row">
-                <div class="col-sm-4">
-                    <div class="gallery">
-                        <img src="img/colar/colar1.png"  width="600" height="400">
-                        <div class="desc"><h4>R$9875,00</h4>
-                            <button class="btn"style="background-color: #3596ea;">Adicionar ao Carrinho</button></div>
-                    </div>
-                </div>
-
-                <div class="col-sm-4">
-                    <div class="gallery">
-                        <img src="img/colar/colar2.png"  width="600" height="400">
-                        <div class="desc"><h4>R$7845,00</h4>
-                            <button class="btn"style="background-color: #3596ea;">Adicionar ao Carrinho</button></div>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="gallery">
-                        <img src="img/colar/colar3.png"  width="600" height="400">
-                        <div class="desc"><h4>R$3498,00</h4>
-                            <button class="btn"style="background-color: #3596ea;">Adicionar ao Carrinho</button></div>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="gallery">
-                        <img src="img/colar/colar4.png"  width="600" height="400">
-                        <div class="desc"><h4>R$6548,00</h4>
-                            <button class="btn"style="background-color: #3596ea;">Adicionar ao Carrinho</button></div>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="gallery">
-                        <img src="img/colar/colar5.png"  width="600" height="400">
-                        <div class="desc"><h4>R$1525,00</h4>
-                            <button class="btn"style="background-color: #3596ea;">Adicionar ao Carrinho</button></div>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="gallery">
-                        <img src="img/colar/colar6.png"  width="600" height="400">
-                        <div class="desc"><h4>R$3254,00</h4>
-                            <button class="btn"style="background-color: #3596ea;">Adicionar ao Carrinho</button></div>
-                    </div>
-                </div>
+                <?php
+                foreach ($listarProdutos as $produto){
+                    if($produto['nome'] === 'colar'){
+                        echo '<div class="col-sm-4">';
+                            echo '<div class="gallery">';
+                                echo '<img src="'.$produto['caminho'].'"  width="600" height="400">';
+                                echo '<div class="desc"><h4>R$'.$produto['preco_venda'].'</h4>';
+                                    echo '<a href="./controller/carrinhoController.php?itensId='.$produto['id'].'"><button class="btn"style="background-color: #3596ea;">Adicionar ao Carrinho</button></a></div>';
+                            echo '</div>';
+                        echo '</div>';
+                    }
+                }
+                ?>
             </div>
             <div id="pulseiras" class="container-fluid">
                 <br>
@@ -190,52 +150,22 @@
                 <br>
             </div>
             <div class="row">
-                <div class="col-sm-4">
-                    <div class="gallery">
-                        <img src="img/pulseira/pulseira1.png"  width="600" height="400">
-                        <div class="desc"><h4>R$4568,00</h4>
-                            <button class="btn"style="background-color: #3596ea;">Adicionar ao Carrinho</button></div>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="gallery">
-                        <img src="img/pulseira/pulseira2.png"  width="600" height="400">
-                        <div class="desc"><h4>R$2480,00</h4>
-                            <button class="btn"style="background-color: #3596ea;">Adicionar ao Carrinho</button></div>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="gallery">
-                        <img src="img/pulseira/pulseira3.png"  width="600" height="400">
-                        <div class="desc"><h4>R$6790,00</h4>
-                            <button class="btn"style="background-color: #3596ea;">Adicionar ao Carrinho</button></div>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="gallery">
-                        <img src="img/pulseira/pulseira4.png"  width="600" height="400">
-                        <div class="desc"><h4>R$3489,00</h4>
-                            <button class="btn"style="background-color: #3596ea;">Adicionar ao Carrinho</button></div>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="gallery">
-                        <img src="img/pulseira/pulseira5.png"  width="600" height="400">
-                        <div class="desc"><h4>R$4597,00</h4>
-                            <button class="btn"style="background-color: #3596ea;">Adicionar ao Carrinho</button></div>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="gallery">
-                        <img src="img/pulseira/pulseira6.png"  width="600" height="400">
-                        <div class="desc"><h4>R$7859,00</h4>
-                            <button class="btn"style="background-color: #3596ea;">Adicionar ao Carrinho</button></div>
-                    </div>
-                </div>
+                <?php
+                foreach ($listarProdutos as $produto){
+                    if($produto['nome'] === 'pulseira'){
+                        echo '<div class="col-sm-4">';
+                            echo '<div class="gallery">';
+                                echo '<img src="'.$produto['caminho'].'"  width="600" height="400">';
+                                echo '<div class="desc"><h4>R$'.$produto['preco_venda'].'</h4>';
+                                    echo '<a href="./controller/carrinhoController.php?itensId='.$produto['id'].'"><button class="btn"style="background-color: #3596ea;">Adicionar ao Carrinho</button></a></div>';
+                            echo '</div>';
+                        echo '</div>';
+                    }
+                }
+                ?>
             </div>
+            <?php endif ?>
             <br>
-            <?php
-            require_once './shared/footer.php';
-            ?>
+            </div>
         </body>
     </html>

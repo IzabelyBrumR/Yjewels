@@ -1,4 +1,8 @@
-<header class="p-3 text-black" style="background-color: #bdf0e979; position:">
+<?php
+    session_start();
+?>
+
+<header class="p-3 text-black" style="background-color: #bdf0e979;">
     <style>
         .logo {
             position: relative;
@@ -24,15 +28,32 @@
                 <li><a href="produtosPage.php#colares" class="nav-link px-2 text-black">Correntes</a></li>
                 <li><a href="produtosPage.php#brincos" class="nav-link px-2 text-black">Brincos</a></li>
                 <li><a href="produtosPage.php#pulseiras" class="nav-link px-2 text-black">Pulseiras</a></li>
-                <li><a href="#" class="nav-link px-2 text-black">Carrinho</a></li>
+                <li><a href="carrinho.php" class="nav-link px-2 text-black">Carrinho</a></li>
+                <li><a href="pedidosPage.php" class="nav-link px-2 text-black">Pedidos</a></li>
+                <?php
+                    require_once './controller/adminController.php';
+                    @$email = $_SESSION['login'];
+                    if(isset($email)){
+                        if(isAdmin($email)){
+                            echo'<li><a href="adminPage.php" class="nav-link px-2 text-black">Administrador</a></li>';
+                        }
+                    }
+                ?>
+
             </ul>
 
-            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-                <input type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">
+            <form method="GET" action="produtosPage.php" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+                <input name="search" type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">
             </form>
 
             <div class="text-end">
-                <a href="loginPage.php" class="btn btn-outline-dark me-2">Login</a>
+                <?php
+                    if(!isset($_SESSION['login'])){
+                        echo'<a href="loginPage.php" class="btn btn-outline-dark me-2">Login</a>';
+                    }else{
+                        echo'<a href="controller/logoutController.php" class="btn btn-outline-dark me-2">Logout</a>';
+                    }
+                ?>
             </div>
         </div>
     </div>

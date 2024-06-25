@@ -1,0 +1,89 @@
+drop database if exists lojaIza;
+create database lojaIza;
+use lojaIza;
+
+create table tipo_usuario(
+	id int not null auto_increment,
+	nome varchar(40) not null,
+	primary key(id)
+);
+INSERT INTO tipo_usuario values
+(1 , 'admin'),
+(2 , 'client');
+
+create table usuario(
+	id int not null auto_increment,
+   	nome varchar(50) not null,
+	email varchar(50) not null,
+	senha varchar(40) not null,
+	tipo_usuario int,
+	primary key(id),
+	foreign key(tipo_usuario) references tipo_usuario(id)
+);
+INSERT INTO usuario values (null,'Iza','iza@iza','112233',1);
+
+create table itens(
+	id int not null auto_increment,
+	nome varchar(50) not null,
+	descricao varchar(50) not null,
+	quantidade int not null,
+	caminho  varchar(255),
+	preco_custo float not null,
+	preco_venda float not null,
+	data_cadastro varchar(10),
+	primary key(id)
+);
+create table carrinho(
+	id int not null auto_increment,
+	nome varchar(40) not null,
+	itens_carrinho int,
+	primary key(id),
+	foreign key(itens_carrinho) references itens(id)
+);
+create table pedidos(
+ 	id int not null auto_increment,
+	data_compra date, -- time now
+	data_aprovacao date, -- time now
+	aprovado bool, -- true or false
+	valor_total float, -- post
+   	usuario_id int, -- session login
+	primary key(id),
+	foreign key(usuario_id) references usuario(id)
+);
+create table pedidos_item(
+	id int not null auto_increment, 
+	item_id int, -- in session pedido
+	quantidade int, -- in session pedido
+	pedido_id int, -- result of insert
+	primary key(id),
+	foreign key(item_id) references itens(id),
+	foreign key(pedido_id) references pedidos(id)
+);
+
+insert into itens(nome,descricao, quantidade, caminho, preco_custo, preco_venda) values("anel", "diamante", 50, "img/aneis/anel1.png", 4500, 4900);
+insert into itens(nome,descricao, quantidade, caminho, preco_custo, preco_venda) values("anel", "prata", 50, "img/aneis/anel2.png", 900, 1249);
+insert into itens(nome,descricao, quantidade, caminho, preco_custo, preco_venda) values("anel", "ouro", 50, "img/aneis/anel3.png", 1019, 1519);
+insert into itens(nome,descricao, quantidade, caminho, preco_custo, preco_venda) values("anel", "prata", 50, "img/aneis/anel4.png", 1200, 1639);
+insert into itens(nome,descricao, quantidade, caminho, preco_custo, preco_venda) values("anel", "ouro", 50, "img/aneis/anel5.png", 2100, 2419);
+insert into itens(nome,descricao, quantidade, caminho, preco_custo, preco_venda) values("anel", "prata", 50, "img/aneis/anel6.png", 4500, 4875);
+
+insert into itens(nome,descricao, quantidade, caminho, preco_custo, preco_venda) values("brinco", "diamante", 50, "img/brincos/brinco1.png", 3500, 3800);
+insert into itens(nome,descricao, quantidade, caminho, preco_custo, preco_venda) values("brinco", "prata", 50, "img/brincos/brinco2.png", 2200, 2500);
+insert into itens(nome,descricao, quantidade, caminho, preco_custo, preco_venda) values("brinco", "ouro", 50, "img/brincos/brinco3.png", 7600, 7800);
+insert into itens(nome,descricao, quantidade, caminho, preco_custo, preco_venda) values("brinco", "prata", 50, "img/brincos/brinco4.png", 1349, 1549);
+insert into itens(nome,descricao, quantidade, caminho, preco_custo, preco_venda) values("brinco", "ouro", 50, "img/brincos/brinco5.png", 10560, 11650);
+insert into itens(nome,descricao, quantidade, caminho, preco_custo, preco_venda) values("brinco", "prata", 50, "img/brincos/brinco6.png", 4369, 4569);
+
+insert into itens(nome,descricao, quantidade, caminho, preco_custo, preco_venda) values("colar", "diamante", 50, "img/colar/colar1.png", 9675, 9875);
+insert into itens(nome,descricao, quantidade, caminho, preco_custo, preco_venda) values("colar", "prata", 50, "img/colar/colar2.png", 7645, 7845);
+insert into itens(nome,descricao, quantidade, caminho, preco_custo, preco_venda) values("colar", "diamante", 50, "img/colar/colar3.png", 3298, 3498);
+insert into itens(nome,descricao, quantidade, caminho, preco_custo, preco_venda) values("colar", "ouro", 50, "img/colar/colar4.png", 6348, 6548);
+insert into itens(nome,descricao, quantidade, caminho, preco_custo, preco_venda) values("colar", "prata", 50, "img/colar/colar5.png", 1325, 1525);
+insert into itens(nome,descricao, quantidade, caminho, preco_custo, preco_venda) values("colar", "ouro", 50, "img/colar/colar6.png", 3054, 3254);
+
+insert into itens(nome,descricao, quantidade, caminho, preco_custo, preco_venda) values("pulseira", "diamante", 50, "img/pulseira/pulseira1.png", 4368, 4568);
+insert into itens(nome,descricao, quantidade, caminho, preco_custo, preco_venda) values("pulseira", "prata", 50, "img/pulseira/pulseira2.png", 2280, 2480);
+insert into itens(nome,descricao, quantidade, caminho, preco_custo, preco_venda) values("pulseira", "ouro", 50, "img/pulseira/pulseira3.png", 6590, 6790);
+insert into itens(nome,descricao, quantidade, caminho, preco_custo, preco_venda) values("pulseira", "ouro", 50, "img/pulseira/pulseira4.png", 3289, 3489);
+insert into itens(nome,descricao, quantidade, caminho, preco_custo, preco_venda) values("pulseira", "prata", 50, "img/pulseira/pulseira5.png", 4397, 4597);
+insert into itens(nome,descricao, quantidade, caminho, preco_custo, preco_venda) values("pulseira", "bronze", 50, "img/pulseira/pulseira6.png", 7659, 7859);

@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Tickshow!</title>
+        <title>Yjewels</title>
 
         <script src="js/jquery-3.7.1.min.js" type="text/javascript"></script>
         <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
@@ -79,37 +79,40 @@
         </style>
     </head>
     <body>
-        <?php
-        require_once './shared/header.php';
-        ?>
+        
         <br><br>
-
         <div class="row">
             <div class="col-md-4"></div>
-
             <div class="col-md-4">
-
                 <div class="blocoLogin">
                     <form method="post" class="formLogin" action="./controller/loginController.php">
                         <h2 style="color:black">Login</h2>
                         <p>Digite os dados de login nos campos abaixo.</p>
 
                         <label for="email">Email:</label>
-                        <input type="email" placeholder="Insira seu email" required="" name="email">
-
+                        <?php
+                            if (isset($_COOKIE['email'])) {
+                                echo('<input type="email" class="form-control" id="email" 
+                                placeholder="Insira seu email" name="email"
+                                value="'.$_COOKIE['email'].'" required="">');
+                            } else {
+                                echo('<input type="email" class="form-control" id="email" 
+                                placeholder="Insira seu email" name="email" required="">');
+                            }
+                        ?>
                         <label for="password">Senha:</label>
                         <input type="password" placeholder="Insira sua senha" required="" name="senha">
                         
                         <div>
-                            <?php
+                        <?php
                             if (isset($_COOKIE['email'])) {
                                 echo ('<input type="checkbox" class="form-check-input" id="lembrar" 
-                           name="lembrar" checked value="1">');
+                                name="lembrar" checked value="1">');
                             } else {
                                 echo ('<input type="checkbox" class="form-check-input" id="lembrar" 
-                           name="lembrar" value="1">');
+                                name="lembrar" value="1">');
                             }
-                            ?>
+                        ?>
                             <label for="lembrar" class="form-check-label" style="color:black">Lembre de mim</label>
                         </div>
 
@@ -118,10 +121,10 @@
                         <input type="submit" value="Entrar" class="btn btn" name="login" style="background-color: #fff">
                         <div class="d-grid">
                         <?php
-                        //para verificar senha ou email
-                         @$cod = $_REQUEST['cod'];
+                        @$cod = $_REQUEST['cod'];
                         if (isset($cod)) {
-                            if ($cod == '171') {  //codigo caso os dados estejam errados => loginController
+                            echo($cod);
+                            if ($cod == '171') {
                                 echo ('<br><div class="alert alert-danger">');
                                 echo ('Verifique usuário ou senha.');
                                 echo ('</div>');
